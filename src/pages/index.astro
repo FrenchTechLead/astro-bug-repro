@@ -1,0 +1,50 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astro Bug Reproduction</title>
+</head>
+
+<body>
+    <Header />
+    <main style="padding: 2rem; max-width: 800px; margin: 0 auto;">
+        <h1>Astro Nested Route HTML Structure Bug Reproduction</h1>
+        <p>This project demonstrates a bug where nested dynamic routes generate malformed HTML.</p>
+        
+        <h2>Test Pages</h2>
+        <ul>
+            <li><a href="/taux/2025-01-01">French Route (Working): /taux/2025-01-01</a></li>
+            <li><a href="/en/taux/2025-01-01">English Route (Broken): /en/taux/2025-01-01</a></li>
+        </ul>
+
+        <h2>Expected Behavior</h2>
+        <p>Both routes should generate identical HTML structure, differing only in content/language.</p>
+
+        <h2>Actual Behavior</h2>
+        <p>The English route generates malformed HTML with:</p>
+        <ul>
+            <li>Missing <code>&lt;/head&gt;</code> closing tag</li>
+            <li>Missing <code>&lt;body&gt;</code> opening tag</li>
+            <li>Corrupted closing tags: <code>&lt;/footer&gt; &lt;/header&gt;&lt;/div&gt;&lt;/html&gt;</code></li>
+        </ul>
+
+        <h2>How to Reproduce</h2>
+        <ol>
+            <li>Run <code>npm run build</code></li>
+            <li>Compare generated HTML files:
+                <ul>
+                    <li><code>dist/taux/2025-01-01.html</code> (correct)</li>
+                    <li><code>dist/en/taux/2025-01-01.html</code> (malformed)</li>
+                </ul>
+            </li>
+        </ol>
+    </main>
+    <Footer />
+</body>
+</html>

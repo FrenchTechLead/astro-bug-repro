@@ -1,0 +1,45 @@
+---
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+import data from '../../../data.json';
+
+export async function getStaticPaths() {
+  return data.map((item) => {
+    return {
+      params: { date: item.date },
+      props: { 
+        current: item,
+        dateFormatted: new Date(item.date).toLocaleDateString('en-US', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long', 
+          day: 'numeric'
+        })
+      }
+    };
+  });
+}
+
+const { current, dateFormatted } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rate for {current.date}: {current.rate} DZD - English Test Site</title>
+    <meta name="description" content="English test page for {current.date}">
+</head>
+
+<body>
+    <Header />
+    <main style="padding: 2rem; max-width: 800px; margin: 0 auto;">
+        <h1>📈 Rate for {current.date}</h1>
+        <p><strong>Date:</strong> {dateFormatted}</p>
+        <p><strong>Rate:</strong> {current.rate} DZD</p>
+        <p>This English page should display correctly but may have HTML structure issues.</p>
+    </main>
+    <Footer />
+</body>
+</html>
